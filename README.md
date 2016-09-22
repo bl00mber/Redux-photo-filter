@@ -1,1 +1,1 @@
-React/Redux simple app example
+Expressions generator

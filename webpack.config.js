@@ -2,31 +2,51 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  devtool: 'cheap-modula-eval-source-map',
+  devtool: 'cheap-module-eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
     'babel-polyfill',
-    './src/index'
+    './src/index.js'
   ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/static/'
+    publicPath: '/static/',
+    filename: 'bundle.js'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new	webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin()
   ],
   module: {
+    preLoaders: [
+      {
+        test: /\.js$/,
+        loaders: ['eslint'],
+        include: [ path.resolve(__dirname, "src"), ]
+      }
+    ],
     loaders: [
       {
-        loaders: ['babel-loader'],
-        include: [
-          path.resolve(__dirname, 'src'),
-        ],
         test: /\.js$/,
-        plugins: ['transform-runtime'],
+        loaders: ['react-hot', 'babel-loader'],
+        include: [ path.resolve(__dirname, "src"), ],
+        plugins: ['transform-runtime']
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader!autoprefixer-loader',
+        include: [ path.resolve(__dirname, "src"), ]
+      },
+      {
+        test: /\.styl$/,
+        loader: 'style-loader!css-loader!stylus-loader?paths=node_modules/bootstrap-stylus/stylus/',
+        include: [ path.resolve(__dirname, "src"), ]
+      },
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
+        include: [ path.resolve(__dirname, "src"), ]
       }
     ]
   }
