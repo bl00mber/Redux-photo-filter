@@ -9,7 +9,7 @@
     "react"
   ],
   "rules": {
-    "quotes": [2, "single", { "avoidEscape": true }],
+    "no-debugger": 0,
     "no-console": 0,
     "new-cap": 0,
     "strict": 0,

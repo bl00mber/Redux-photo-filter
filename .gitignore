@@ -1,4 +1,5 @@
-*/.DS_Store
+.git
+.DS_Store
 .DS_Store
 .DS_Store?
 ._*
@@ -11,3 +12,6 @@ Thumbs.db
 node_modules
 npm-debug.log
 book_img
+=======
+node_modules
+dist
