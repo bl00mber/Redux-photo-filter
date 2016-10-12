@@ -29,7 +29,7 @@ export function handleLogin() {
 
         var uid = response.authResponse.userID;
         var accessToken = response.authResponse.accessToken;
-        
+
       } else {
 
         FB.login(function(response) {
@@ -37,6 +37,8 @@ export function handleLogin() {
 
             FB.api('/me', function(response) {
               let username = response.name
+
+              console.dir(response)
 
               dispatch({
                type: LOGIN_SUCCESS,

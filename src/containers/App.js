@@ -6,7 +6,6 @@ import Page from '../components/Page'
 import * as pageActions from '../actions/PageActions'
 import * as userActions from '../actions/UserActions'
 
-
 class App extends Component {
   componentDidMount() {
     /* eslint-disable */
@@ -28,7 +27,7 @@ class App extends Component {
        fjs.parentNode.insertBefore(js, fjs);
      }(document, 'script', 'facebook-jssdk'));
 
-     /* eslint-enable */
+    /* eslint-enable */
   }
 
   render() {

@@ -19,7 +19,7 @@ h3 {
   border-bottom: solid 1px #dcdcdc;
   background-color: #f5f5f5;
   position: relative;
-  top: 40px;
+  top: 70px;
 }
 .page {
   width: 80%;
@@ -27,6 +27,7 @@ h3 {
 }
 .user {
   white-space: nowrap;
+  position: relative;
 }
 .user p {
   display: inline-block;
@@ -36,27 +37,41 @@ h3 {
   border: none;
   border-radius: 2px;
   display: inline-block;
-  height: 36px;
-  line-height: 36px;
-  font-size: 16px;
-  outline: 0;
-  padding: 0 2rem;
   text-transform: uppercase;
-  vertical-align: middle;
-  color: #fff;
-  background-color: #6383a8;
+  width: 115px;
   text-align: center;
   letter-spacing: .5px;
   transition: .2s ease-out;
   cursor: pointer;
+  margin-right: 7px;
+}
+.btn span {
+  display: block;
+}
+.user .btn {
+  margin-right: 0;
 }
 .btn:hover {
   background-color: #46658a;
 }
+.logo {
+  background-image: url(https://www.facebook.com/rsrc.php/v3/y5/r/LE2g6zI5txU.png);
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: 0 0;
+  height: 35px;
+  left: 0;
+  top: -70px;
+  width: 176px;
+  position: absolute;
+  display: inline-block;
+}
 .feedback_text {
   position: absolute;
-  top: -50px;
+  top: -60px;
+  right: 0;
   color: #888888;
+  margin-right: 0 !important;
 }
 .feedback_text a {
   color: #888888;
@@ -64,4 +79,10 @@ h3 {
 .status_text {
   position: absolute;
   top: 150px;
+  color: #424242;
+}
+.advanced {
+  position: absolute;
+  top: 80px;
+
 }

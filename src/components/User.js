@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'
+import RaisedButton from 'material-ui/RaisedButton'
 
 export default class User extends Component {
 
@@ -13,8 +14,9 @@ export default class User extends Component {
     }
 
     return <div className='ib user'>
+      <p className='feedback_text'>Email: <a href='mailto:bloomber111@gmail.com'>bloomber111@gmail.com</a></p>
       <p>Hello, {name}!</p>
-      <button className='btn' onClick={this.props.handleLogin}>{btn_text}</button>
+      <RaisedButton className='btn' label={btn_text} onClick={this.props.handleLogin}/>
       {error ? <p className='error'>{error}.<br/>Try again.</p> : ''}
     </div>
   }
