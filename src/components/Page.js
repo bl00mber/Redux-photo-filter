@@ -7,15 +7,14 @@ export default class Page extends Component {
     super(props)
     this.state = { errorText: '' }
   }
-  changeHandler(e) {
-    let currentYear = 2016,
-        URLInput = document.querySelector('.target').children[1],
+  changeHandler() {
+    let URLInput = document.querySelector('.target').children[1],
         nickname = URLInput.value,
-        validRegex = /^[a-zA-Z0-9]+$/,
+        validRegex = /^[a-zA-Z0-9_]+$/,
         self = this,
         response = {}
 
-    if (e.target.nodeName !== 'INPUT') currentYear = +e.target.innerText
+    // if (e.target.nodeName !== 'INPUT') year = +e.target.innerText
 
     if (nickname.match(validRegex)) {
       var xhr = new XMLHttpRequest();
@@ -26,7 +25,8 @@ export default class Page extends Component {
           if (xhr.status == 200) {
             self.setState({ errorText: '' })
             response = xhr.responseText;
-            console.dir(response);
+
+            self.props.getPreviewPhotos(response, nickname)
           } else {
             self.setState({ errorText: 'Page not found' })
           }
@@ -36,32 +36,54 @@ export default class Page extends Component {
     } else {
       this.setState({ errorText: 'Enter nickname here' })
     }
-
-    console.log(currentYear)
-    console.log(nickname)
-
-    this.props.getPhotos(currentYear, nickname, response)
   }
   render() {
-    const { year, photos, fetching } = this.props
-    const years = [2016,2015,2014,2013,2012]
+    const { year, photos, fetching, empty, user } = this.props
+    const years = [2016,2015,2014,2013]
+    console.dir('photoss')
+    console.dir(photos)
+    console.dir('photoss')
 
     return <div className='ib page'>
       <div className='logo'></div>
       {
         years.map((item, index) =>
-        <RaisedButton label={item} key={index}
+        <RaisedButton label={item} key={index} disabled={true}
          className='btn' onClick={::this.changeHandler}/> )
       }
       {
         fetching ?
         <p className='status_text'>Loading...</p>
         :
-        <p className='status_text'>You have {photos.length} images from {year} avialable.</p>
+          (photos.length > 0) ?
+            year ?
+            <p className='status_text'>{user} has {photos.length} images from {year} avialable.</p>
+            :
+            <p className='status_text'>Photos by {user}</p>
+          :
+          <p className='status_text'>User has not photos</p>
       }
       <div className='advanced'>
-        <TextField className='target' hintText='Target Instagram URL'
+        <TextField className='target' hintText='Enter Instagram nickname'
          errorText={this.state.errorText} onChange={::this.changeHandler}/>
+      </div>
+      <div className='content_container'>
+        <div className='content'>
+          {
+            empty ?
+            ''
+            :
+            photos.map((item, index) =>
+            item.type == 'video' ?
+              <div className='content_items video' key={index}>
+               <img src={item.images.standard_resolution.url}></img>
+              </div>
+              :
+              <div className='content_items' key={index}>
+               <img src={item.images.standard_resolution.url}></img>
+              </div> )
+          }
+        </div>
       </div>
     </div>
   }
@@ -70,5 +92,7 @@ export default class Page extends Component {
 Page.propTypes = {
   year: PropTypes.number.isRequired,
   photos: PropTypes.array.isRequired,
-  getPhotos: PropTypes.func.isRequired
+  empty: PropTypes.bool.isRequired,
+  user: PropTypes.string.isRequired,
+  getPreviewPhotos: PropTypes.func.isRequired
 }

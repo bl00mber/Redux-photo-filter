@@ -22,12 +22,13 @@ h3 {
   top: 70px;
 }
 .page {
-  width: 80%;
+  width: 100%;
   position: relative;
 }
 .user {
   white-space: nowrap;
-  position: relative;
+  position: absolute;
+  right: 50px;
 }
 .user p {
   display: inline-block;
@@ -84,5 +85,47 @@ h3 {
 .advanced {
   position: absolute;
   top: 80px;
-
+}
+.content_container {
+  display: flex;
+  position: absolute;
+  top: 200px;
+  width: 100%;
+}
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 965px;
+  margin: 0 -25px;
+}
+.content_items {
+  width: 293px;
+  height: 293px;
+  max-width: 293px;
+  max-height: 293px;
+  display: inline-block;
+  margin: 0 10px 10px 10px;
+  flex-grow: 1;
+  overflow: hidden;
+  background-size: 293px;
+  position: relative;
+}
+.content_items img {
+  width: 350px;
+  height: 350px;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: -8%;
+}
+.content_items.video img {
+  width: 500px;
+  height: 500px;
+  left: -36%;
+}
+.content_items_source {
+  width: 293px;
+  height: 293px;
 }
