@@ -71,11 +71,13 @@ h3 {
   position: absolute;
   top: -60px;
   right: 0;
-  color: #888888;
+  color: #d0d0d0;
   margin-right: 0 !important;
 }
 .feedback_text a {
-  color: #888888;
+  color: #d0d0d0;
+  text-decoration: none;
+  cursor: pointer;
 }
 .status_text {
   position: absolute;

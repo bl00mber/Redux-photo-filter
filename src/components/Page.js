@@ -5,11 +5,10 @@ import RaisedButton from 'material-ui/RaisedButton'
 export default class Page extends Component {
   constructor(props) {
     super(props)
-    this.state = { errorText: '' }
+    this.state = { errorText: '', photosText: '' }
   }
   changeHandler() {
-    let URLInput = document.querySelector('.target').children[1],
-        nickname = URLInput.value,
+    let nickname = document.querySelector('.target').children[1].value,
         validRegex = /^[a-zA-Z0-9_]+$/,
         self = this,
         response = {}
@@ -18,7 +17,7 @@ export default class Page extends Component {
 
     if (nickname.match(validRegex)) {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET','https://www.instagram.com/' + nickname + '/media/');
+      xhr.open('GET','https://crossorigin.me/https://www.instagram.com/' + nickname + '/media/');
       xhr.onreadystatechange = function() {
           if(xhr.readyState != 4) return;
 
@@ -27,8 +26,10 @@ export default class Page extends Component {
             response = xhr.responseText;
 
             self.props.getPreviewPhotos(response, nickname)
+
+            self.setState({ photosText: 'User has not photos' })
           } else {
-            self.setState({ errorText: 'Page not found' })
+            self.setState({ errorText: 'Page not found', photosText: '' })
           }
       }
       xhr.send();
@@ -59,9 +60,9 @@ export default class Page extends Component {
             year ?
             <p className='status_text'>{user} has {photos.length} images from {year} avialable.</p>
             :
-            <p className='status_text'>Photos by {user}</p>
+            <p className='status_text'>Photos by {user || document.querySelector('.target').children[1].value}</p>
           :
-          <p className='status_text'>User has not photos</p>
+          <p className='status_text'>{this.state.photosText}</p>
       }
       <div className='advanced'>
         <TextField className='target' hintText='Enter Instagram nickname'

@@ -16,7 +16,6 @@ class App extends Component {
         xfbml      : true,
         version    : 'v2.8'
       });
-      console.dir(FB);
     };
 
     (function(d, s, id){
