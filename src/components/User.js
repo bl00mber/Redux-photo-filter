@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 
 export default class User extends Component {
-
+  
   render() {
     const { name, login, error } = this.props
     let btn_text

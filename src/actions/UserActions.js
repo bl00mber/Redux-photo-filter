@@ -8,6 +8,7 @@ import {
 export function handleLogin() {
 
   return function(dispatch) {
+
     /* eslint-disable */
 
     dispatch({
@@ -61,6 +62,7 @@ export function handleLogin() {
     });
 
     /* eslint-enable */
-  }
 
+  }
+  
 }

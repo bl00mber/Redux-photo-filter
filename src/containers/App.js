@@ -31,11 +31,13 @@ class App extends Component {
 
   render() {
     const { user, page } = this.props
-    const { getPreviewPhotos } = this.props.pageActions
+    const { getPhotos } = this.props.pageActions
     const { handleLogin } = this.props.userActions
 
     return <div className='settings'>
-      <Page photos={page.photos} year={page.year} fetching={page.fetching} empty={page.empty} user={page.user} getPreviewPhotos={getPreviewPhotos}/>
+      <Page photos={page.photos} year={page.year} fetching={page.fetching}
+        empty={page.empty} user={page.user} getPhotos={getPhotos} moreAvialable={page.moreAvialable}
+        photosCount={page.photosCount} error={page.error}/>
       <User name={user.name} login={user.login} error={user.error} handleLogin={handleLogin}/>
     </div>
   }

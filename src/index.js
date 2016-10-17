@@ -7,7 +7,7 @@ import configureStore from './store/configureStore'
 
 // Implementing material-ui
 
-import {indigo400, indigo50} from 'material-ui/styles/colors'
+import {blue500, blue50} from 'material-ui/styles/colors'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -17,12 +17,12 @@ injectTapEventPlugin()
 
 const muiTheme = getMuiTheme({
   raisedButton: {
-    color: indigo400,
-    textColor: indigo50
+    color: blue500,
+    textColor: blue50
   },
   textField: {
-    focusColor: indigo400,
-    borderColor: indigo50
+    focusColor: blue500,
+    borderColor: blue50
   }
 });
 
