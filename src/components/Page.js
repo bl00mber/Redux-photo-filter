@@ -15,20 +15,24 @@ export default class Page extends Component {
         self = this
 
     if (nickname.match(validRegex)) {
+      
+      if (e.target.innerText == 'GET MORE') {
+        if (photosLoaded)
+        return self.props.getPhotos('GET_MORE_FILTERED', nickname, this.props.year);
+        return self.props.getPhotos('GET_MORE', nickname);
+      }
 
-      // Handler for year-filter
+      // Handler for year buttons
       if (e.target.nodeName !== 'INPUT') {
-
         // Check the availability of the array to run filter
         if (photosLoaded)
-        return self.props.getPhotos(nickname, +e.target.innerText, photosLoaded);
-
+        return self.props.getPhotos('CHANGE_FILTERED_PREVIEW', nickname, +e.target.innerText);
         // First loading and filtering
-        return self.props.getPhotos(nickname, +e.target.innerText);
+        return self.props.getPhotos('LOAD_FILTERED_PREVIEW', nickname, +e.target.innerText);
       }
 
       self.setState({ errorText: '', photosText: '' })
-      self.props.getPhotos(nickname)
+      self.props.getPhotos('LOAD_PREVIEW', nickname)
       self.setState({ photosText: 'User has not photos' })
 
     } else {
@@ -59,7 +63,7 @@ export default class Page extends Component {
         :
           (photos.length > 0) ?
             year ?
-            <p className='status_text'>{user || 'User'} has {photosCount} images from {year} avialable (Filtered last 600 photos).</p>
+            <p className='status_text'>{user || 'User'} has {photosCount} items from {year} avialable (Filtered last 400 photos).</p>
             :
             <p className='status_text'>Photos by {user || document.querySelector('.target').children[1].value}</p>
           :
@@ -98,7 +102,7 @@ export default class Page extends Component {
               }
               {
                 moreAvialable ? <RaisedButton label='Get more' disabled={fetching}
-                className='btn get_more' onClick={this.props.getPhotos}>
+                className='btn get_more' onClick={::this.changeHandler}>
                   { fetching ? <CircularProgress className='status_progressbar more' size={30} thickness={3} /> : '' }
                 </RaisedButton>
                : ''

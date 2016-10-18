@@ -9,8 +9,35 @@ import {
 let data = [],
     allData = [],
     filteredData = [],
+    filteredDataIndex = 20,
     currentPhotos = [],
     currentNickname = ''
+
+function getMoreFiltered(nickname, year) {
+
+  return (dispatch) => {
+    dispatch({
+      type: GET_PHOTOS_REQUEST
+    })
+
+    filteredData.forEach((item, index) => {
+      if (index > filteredDataIndex && index < filteredDataIndex + 20)
+      currentPhotos.push(item)
+    })
+
+    filteredDataIndex += 20;
+
+    dispatch({
+      type: GET_PHOTOS_FILTERED,
+      year: year,
+      payload: currentPhotos,
+      empty: false,
+      moreAvialable: true,
+      photosCount: filteredData.length || true
+    })
+  }
+
+}
 
 function changeFilteredPreview(nickname, year) {
 
@@ -18,6 +45,8 @@ function changeFilteredPreview(nickname, year) {
     dispatch({
       type: GET_PHOTOS_REQUEST
     })
+
+    filteredDataIndex = 20
 
     return filter(allData, year, dispatch)
   }
@@ -38,9 +67,10 @@ function filter(allData, year, dispatch) {
   })
   console.log('filtered array')
   console.dir(filteredData)
+  console.dir(allData)
 
   filteredData.forEach((item, index) => {
-    if (index < 20)
+    if (index < filteredDataIndex)
     currentPhotos.push(item)
   })
 
@@ -78,6 +108,8 @@ function loadFilteredPreview(nickname, year) {
 
 function getMore(all, year) {
 
+  console.log('getMore')
+
   return (dispatch) => {
     dispatch({
       type: GET_PHOTOS_REQUEST
@@ -88,8 +120,8 @@ function getMore(all, year) {
       let lastPhotoId = data.items[data.items.length - 1].id
 
       var xhr = new XMLHttpRequest();
-      // For CORS add https://crossorigin.me/
-      xhr.open('GET','https://www.instagram.com/' + currentNickname + '/media/?max_id=' + lastPhotoId);
+      // Added https://crossorigin.me/ for CORS fix
+      xhr.open('GET','https://crossorigin.me/https://www.instagram.com/' + currentNickname + '/media/?max_id=' + lastPhotoId);
       xhr.onload = function() {
         if (xhr.status == 200) {
           data = JSON.parse(xhr.responseText)
@@ -98,8 +130,8 @@ function getMore(all, year) {
           let currentUser = data.items[0].user.full_name
 
           if (all) {
-            // Load first 600 photos
-            if (data.more_available === true && allData.length < 200) {
+            // Load first 400 photos
+            if (data.more_available === true && allData.length < 400) {
               data.items.forEach((item) => {
                 allData.push(item)
               })
@@ -108,6 +140,11 @@ function getMore(all, year) {
               load()
 
             } else {
+              data.items.forEach((item) => {
+                allData.push(item)
+              })
+              console.dir(allData);
+
               return filter(allData, year, dispatch)
             }
           } else {
@@ -133,8 +170,10 @@ function getMore(all, year) {
 
 
 function loadPreview(nickname) {
+  console.log('loadPreview')
 
   currentNickname = nickname
+  filteredDataIndex = 20
 
   return (dispatch) => {
     dispatch({
@@ -146,9 +185,8 @@ function loadPreview(nickname) {
     currentPhotos = []
 
     var xhr = new XMLHttpRequest();
-
-    // For CORS add https://crossorigin.me/
-    xhr.open('GET','https://www.instagram.com/' + nickname + '/media/');
+    // Added https://crossorigin.me/ for CORS fix
+    xhr.open('GET','https://crossorigin.me/https://www.instagram.com/' + nickname + '/media/');
     xhr.onload = function(e) {
       if (xhr.status == 200) {
         var response = xhr.responseText;
@@ -190,11 +228,25 @@ function loadPreview(nickname) {
 
 }
 
-export function getPhotos(nickname, year, photosLoaded) {
+export function getPhotos(action, nickname, year) {
 
-  if (photosLoaded) return changeFilteredPreview(nickname, year)
-  if (year) return loadFilteredPreview(nickname, year)
-  if (typeof nickname == 'string') return loadPreview(nickname)
-  return getMore()
+  console.log(arguments)
+
+  switch (action) {
+    case 'LOAD_PREVIEW':
+      return loadPreview(nickname);
+
+    case 'GET_MORE':
+      return getMore();
+
+    case 'LOAD_FILTERED_PREVIEW':
+      return loadFilteredPreview(nickname, year);
+
+    case 'CHANGE_FILTERED_PREVIEW':
+      return changeFilteredPreview(nickname, year)
+
+    case 'GET_MORE_FILTERED':
+      return getMoreFiltered(nickname, year);
+  }
 
 }
