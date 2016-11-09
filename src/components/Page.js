@@ -15,7 +15,7 @@ export default class Page extends Component {
         self = this
 
     if (nickname.match(validRegex)) {
-      
+
       if (e.target.innerText == 'GET MORE') {
         if (photosLoaded)
         return self.props.getPhotos('GET_MORE_FILTERED', nickname, this.props.year);
@@ -45,10 +45,10 @@ export default class Page extends Component {
 
     return <div className='ib page'>
       <div className='logo'></div>
+      <div className='logo-text'>filter</div>
       {
         years.map((item, index) =>
-        // photos[1] == null || this.state.errorText == 'Enter nickname here'
-        <RaisedButton label={item} key={index} disabled={this.state.errorText == 'Enter nickname here'}
+        <RaisedButton label={item} key={index} disabled={this.state.errorText == 'Enter nickname here' || fetching}
          className='btn' onClick={::this.changeHandler}/> )
       }
       {
@@ -68,7 +68,7 @@ export default class Page extends Component {
             <p className='status_text'>Photos by {user || document.querySelector('.target').children[1].value}</p>
           :
           empty ?
-            <p className='status_text'>{this.state.photosText} { year ? ' from ' + year + ' (Filtered last 600 photos)' : '' }</p>
+            <p className='status_text'>{this.state.photosText} { year ? ' from ' + year + ' (Filtered last 400 photos)' : '' }</p>
             :
             ''
       }

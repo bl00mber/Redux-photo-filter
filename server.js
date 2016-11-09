@@ -4,25 +4,45 @@ var webpackHotMiddleware = require('webpack-hot-middleware')
 var config = require('./webpack.config')
 
 var app = new (require('express'))()
+var request = require('request')
+
 var port = 3000
 
 var compiler = webpack(config)
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
 app.use(webpackHotMiddleware(compiler))
 
-//------Get JSON from side-server
+app.disable('x-powered-by')
 
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Methods", "*");
-//   res.header("Access-Control-Allow-Headers", "origin, content-type, accept");
-//   next();
-// })
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "*");
+  res.header("Access-Control-Allow-Headers", "origin, content-type, accept");
+  next();
+})
 
-//-------------------------------
+app.get("/:nickname?/:lastPhotoId?", function(req, res) {
+  var nickname = req.params.nickname,
+      lastPhotoId = req.params.lastPhotoId;
 
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + '/index.html')
+  if (nickname && lastPhotoId) {
+    var url = 'https://www.instagram.com/' + nickname + '/media/?max_id=' + lastPhotoId;
+
+    return request.get(url, function(error, response, body) {
+      if (!error && response.statusCode === 200) {
+        return res.send(body)
+      }
+    })
+  } else if (nickname) {
+    var url = 'https://www.instagram.com/' + nickname + '/media/';
+
+    return request.get(url, function(error, response, body) {
+      if (!error && response.statusCode === 200) {
+        return res.send(body)
+      }
+    })
+  }
+  return res.sendFile(__dirname + '/index.html')
 })
 
 app.listen(port, function(error) {

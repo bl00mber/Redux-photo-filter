@@ -26,14 +26,16 @@ function getMoreFiltered(nickname, year) {
     })
 
     filteredDataIndex += 20;
+    let currentMoreAvialable = (filteredDataIndex >= filteredData.length);
 
     dispatch({
       type: GET_PHOTOS_FILTERED,
-      year: year,
-      payload: currentPhotos,
-      empty: false,
-      moreAvialable: true,
-      photosCount: filteredData.length || true
+      payload: {
+        year: year,
+        photos: currentPhotos,
+        moreAvialable: currentMoreAvialable,
+        photosCount: filteredData.length || true
+      }
     })
   }
 
@@ -67,7 +69,6 @@ function filter(allData, year, dispatch) {
   })
   console.log('filtered array')
   console.dir(filteredData)
-  console.dir(allData)
 
   filteredData.forEach((item, index) => {
     if (index < filteredDataIndex)
@@ -78,15 +79,15 @@ function filter(allData, year, dispatch) {
 
   if (currentPhotos.length == 0) { emptyProp = true, moreAvialableProp = false }
 
-  console.log('moreAvialableProp: ' + moreAvialableProp)
-
   dispatch({
     type: GET_PHOTOS_FILTERED,
-    year: year,
-    payload: currentPhotos,
-    empty: emptyProp,
-    moreAvialable: moreAvialableProp,
-    photosCount: filteredData.length || true
+    payload: {
+      year: year,
+      photos: currentPhotos,
+      empty: emptyProp,
+      moreAvialable: moreAvialableProp,
+      photosCount: filteredData.length || true
+    }
   })
 
 }
@@ -120,8 +121,8 @@ function getMore(all, year) {
       let lastPhotoId = data.items[data.items.length - 1].id
 
       var xhr = new XMLHttpRequest();
-      // Added https://crossorigin.me/ for CORS fix
-      xhr.open('GET','https://crossorigin.me/https://www.instagram.com/' + currentNickname + '/media/?max_id=' + lastPhotoId);
+
+      xhr.open('GET', currentNickname + '/' + lastPhotoId);
       xhr.onload = function() {
         if (xhr.status == 200) {
           data = JSON.parse(xhr.responseText)
@@ -154,9 +155,11 @@ function getMore(all, year) {
 
             dispatch({
               type: GET_PHOTOS_SUCCESS,
-              payload: currentPhotos,
-              user: currentUser,
-              moreAvialable: data.more_available
+              payload: {
+                photos: currentPhotos,
+                user: currentUser,
+                moreAvialable: data.more_available
+              }
             })
           }
         }
@@ -185,11 +188,12 @@ function loadPreview(nickname) {
     currentPhotos = []
 
     var xhr = new XMLHttpRequest();
-    // Added https://crossorigin.me/ for CORS fix
-    xhr.open('GET','https://crossorigin.me/https://www.instagram.com/' + nickname + '/media/');
+
+    xhr.open('GET', nickname);
     xhr.onload = function(e) {
       if (xhr.status == 200) {
         var response = xhr.responseText;
+        
         data = JSON.parse(response)
         console.dir(data)
 
@@ -209,9 +213,11 @@ function loadPreview(nickname) {
 
           dispatch({
             type: GET_PHOTOS_SUCCESS,
-            payload: currentPhotos,
-            user: currentUser,
-            moreAvialable: moreAvialableProp
+            payload: {
+              photos: currentPhotos,
+              user: currentUser,
+              moreAvialable: moreAvialableProp
+            }
           })
 
         }
@@ -229,8 +235,6 @@ function loadPreview(nickname) {
 }
 
 export function getPhotos(action, nickname, year) {
-
-  console.log(arguments)
 
   switch (action) {
     case 'LOAD_PREVIEW':

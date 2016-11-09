@@ -7,28 +7,6 @@ import * as pageActions from '../actions/PageActions'
 import * as userActions from '../actions/UserActions'
 
 class App extends Component {
-  componentDidMount() {
-    /* eslint-disable */
-
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '1869889646564013',
-        xfbml      : true,
-        version    : 'v2.8'
-      });
-    };
-
-    (function(d, s, id){
-       var js, fjs = d.getElementsByTagName(s)[0];
-       if (d.getElementById(id)) {return;}
-       js = d.createElement(s); js.id = id;
-       js.src = "//connect.facebook.net/en_US/sdk.js";
-       fjs.parentNode.insertBefore(js, fjs);
-     }(document, 'script', 'facebook-jssdk'));
-
-    /* eslint-enable */
-  }
-
   render() {
     const { user, page } = this.props
     const { getPhotos } = this.props.pageActions

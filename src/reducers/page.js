@@ -24,16 +24,18 @@ export default function page(state = initialState, action) {
       return { ...state, year: 0, fetching: true, empty: false, error: '' }
 
     case GET_PHOTOS_SUCCESS:
-      return { ...state, year: 0, photos: action.payload, fetching: false, empty: false, user: action.user, moreAvialable: action.moreAvialable, photosCount: '', error: '' }
+      return { ...state, year: 0, photos: action.payload.photos, user: action.payload.user, fetching: false,
+        empty: false, moreAvialable: action.payload.moreAvialable, photosCount: '', error: '' }
 
     case GET_PHOTOS_FILTERED:
-      return { ...state, year: action.year, photos: action.payload, fetching: false, empty: action.empty, moreAvialable: action.moreAvialable, photosCount: action.photosCount, error: '' }
+      return { ...state, year: action.payload.year, photos: action.payload.photos, fetching: false,
+        empty: action.payload.empty, moreAvialable: action.payload.moreAvialable, photosCount: action.payload.photosCount, error: '' }
 
     case GET_PHOTOS_EMPTY:
       return { ...state, photos: action.payload, fetching: false, empty: true, user: '', moreAvialable: false, error: '' }
 
     case GET_PHOTOS_FAIL:
-      return { ...state, fetching: false, empty: false, moreAvialable: false, error: action.payload.message }
+      return { ...state, fetching: false, empty: false, moreAvialable: false, error: action.payload }
 
     default:
       return state;

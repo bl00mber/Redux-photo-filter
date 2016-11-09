@@ -39,8 +39,6 @@ export function handleLogin() {
             FB.api('/me', function(response) {
               let username = response.name
 
-              console.dir(response)
-
               dispatch({
                type: LOGIN_SUCCESS,
                payload: username,
@@ -60,9 +58,9 @@ export function handleLogin() {
 
       }
     });
-
+    
     /* eslint-enable */
 
   }
-  
+
 }
