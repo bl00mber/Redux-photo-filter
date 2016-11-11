@@ -1,16 +1,20 @@
-var webpack = require('webpack')
-var webpackDevMiddleware = require('webpack-dev-middleware')
-var webpackHotMiddleware = require('webpack-hot-middleware')
-var config = require('./webpack.config')
+const webpack = require('webpack')
+const webpackDevMiddleware = require('webpack-dev-middleware')
+const webpackHotMiddleware = require('webpack-hot-middleware')
+const config = require('./webpack/common.config')
+const compiler = webpack(config)
 
-var app = new (require('express'))()
-var request = require('request')
+const app = (require('express'))()
+const request = require('request')
 
-var port = 3000
+app.use(webpackDevMiddleware(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath
+}))
 
-var compiler = webpack(config)
-app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
 app.use(webpackHotMiddleware(compiler))
+
+// Server configuration
 
 app.disable('x-powered-by')
 
@@ -20,6 +24,22 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "origin, content-type, accept");
   next();
 })
+
+const htmlTemplate = () => {
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Photo Filter</title>
+        <link href="https://fonts.googleapis.com/css?family=Oleo+Script|Roboto" rel="stylesheet">
+      </head>
+      <body>
+        <div id="root"></div>
+        <script src="client.js"></script>
+      </body>
+    </html>
+  `;
+}
 
 app.get("/:nickname?/:lastPhotoId?", function(req, res) {
   var nickname = req.params.nickname,
@@ -42,8 +62,10 @@ app.get("/:nickname?/:lastPhotoId?", function(req, res) {
       }
     })
   }
-  return res.sendFile(__dirname + '/index.html')
+  return res.send(htmlTemplate())
 })
+
+const port = 3000
 
 app.listen(port, function(error) {
   if (error) {
