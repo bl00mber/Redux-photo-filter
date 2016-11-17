@@ -11,7 +11,7 @@ let data = [],
     filteredData = [],
     filteredDataIndex = 20,
     currentPhotos = [],
-    currentNickname = ''
+    currentNickname = '';
 
 function getMoreFiltered(nickname, year) {
 
@@ -122,7 +122,7 @@ function getMore(all, year) {
 
       var xhr = new XMLHttpRequest();
 
-      xhr.open('GET', currentNickname + '/' + lastPhotoId);
+      xhr.open('GET', 'request/' + currentNickname + '/' + lastPhotoId);
       xhr.onload = function() {
         if (xhr.status == 200) {
           data = JSON.parse(xhr.responseText)
@@ -189,11 +189,11 @@ function loadPreview(nickname) {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('GET', nickname);
+    xhr.open('GET', 'request/' + nickname);
     xhr.onload = function(e) {
       if (xhr.status == 200) {
         var response = xhr.responseText;
-        
+
         data = JSON.parse(response)
         console.dir(data)
 

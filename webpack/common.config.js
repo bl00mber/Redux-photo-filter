@@ -7,23 +7,22 @@ const development = require('./dev.config.js');
 const production = require('./prod.config.js');
 
 const PATHS = {
-  app: path.join(__dirname, '../client'),
-  build: path.join(__dirname, '../dist'),
+  entry: path.join(__dirname, '../client'),
+  build: path.join(__dirname, '../dist/static'),
 };
 
 const common = {
   entry: [
-    PATHS.app,
+    PATHS.entry,
   ],
 
   output: {
-    path: PATHS.build,
-    filename: 'client.js',
+    path: PATHS.build
   },
 
   resolve: {
     extensions: ['', '.jsx', '.js', '.json', '.css'],
-    modulesDirectories: ['node_modules', PATHS.app],
+    modulesDirectories: ['node_modules', PATHS.entry],
   },
 
   module: {

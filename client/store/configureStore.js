@@ -1,14 +1,23 @@
 import { createStore, applyMiddleware } from 'redux'
 import rootReducer from '../reducers'
-import createLogger from 'redux-logger'
 import thunk from 'redux-thunk'
 
-export default function configureStore(initialState) {
+let middleware = [thunk];
+
+// Logging in development mode
+if (process.env.NODE_ENV !== 'production') {
+  let createLogger = require('redux-logger')
   const logger = createLogger()
+  middleware = [...middleware, logger];
+}
+
+const applyMiddlewareConfigurated = applyMiddleware(...middleware);
+
+export default function configureStore(initialState) {
   const store = createStore(
     rootReducer,
     initialState,
-    applyMiddleware(thunk, logger))
+    applyMiddlewareConfigurated)
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {
