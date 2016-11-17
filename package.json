@@ -11,6 +11,9 @@
   },
   "author": "Nikita Lebedev",
   "license": "MIT",
+  "engines": {
+    "node": "7.0.0"
+  },
   "devDependencies": {
     "autoprefixer": "^6.3.1",
     "babel-core": "^6.4.5",
@@ -26,14 +29,12 @@
     "eslint": "^1.10.3",
     "eslint-loader": "^1.2.1",
     "eslint-plugin-react": "^3.16.1",
-    "express": "^4.14.0",
     "json-loader": "^0.5.4",
     "npm-install-webpack-plugin": "^2.0.2",
     "postcss-import": "^8.2.0",
     "postcss-loader": "^0.8.2",
     "react-hot-loader": "^1.3.0",
     "redux-logger": "^2.7.4",
-    "request": "^2.78.0",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.12",
     "webpack-dev-middleware": "^1.5.1",
@@ -42,12 +43,14 @@
     "webpack-merge": "^0.15.0"
   },
   "dependencies": {
+    "express": "^4.14.0",
     "material-ui": "^0.16.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-redux": "^4.0.6",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.6.0",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "request": "^2.78.0"
   }
 }
