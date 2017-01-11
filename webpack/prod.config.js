@@ -1,12 +1,6 @@
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const path = require('path');
 
 module.exports = {
-  output: {
-    filename: 'client.js'
-  },
-
   module: {
     loaders: [{
       test: /\.css$/,
@@ -29,8 +23,5 @@ module.exports = {
         drop_console: true
       },
     }),
-    new CopyWebpackPlugin([
-      { from: path.join(__dirname, '../server'), to: path.join(__dirname, '../dist') }
-    ])
   ],
 };

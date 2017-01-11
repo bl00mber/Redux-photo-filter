@@ -1,40 +1,41 @@
 import React, { PropTypes, Component } from 'react'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from 'material-ui/CircularProgress'
 
 export default class Page extends Component {
   constructor(props) {
     super(props)
     this.state = { errorText: '', photosText: '' }
+    this.changeHandler = ::this.changeHandler;
   }
   changeHandler(e) {
     let nickname = document.querySelector('.target').children[1].value,
         validRegex = /^[a-zA-Z0-9_]+$/,
         photosLoaded = this.props.photosCount,
-        self = this
+        getPhotos = this.props.getPhotos;
+
+    this.setState({ errorText: '', photosText: '' })
 
     if (nickname.match(validRegex)) {
 
       if (e.target.innerText == 'GET MORE') {
         if (photosLoaded)
-        return self.props.getPhotos('GET_MORE_FILTERED', nickname, this.props.year);
-        return self.props.getPhotos('GET_MORE', nickname);
+        return getPhotos('GET_MORE_FILTERED', nickname, this.props.year);
+        return getPhotos('GET_MORE', nickname);
       }
 
       // Handler for year buttons
       if (e.target.nodeName !== 'INPUT') {
         // Check the availability of the array to run filter
         if (photosLoaded)
-        return self.props.getPhotos('CHANGE_FILTERED_PREVIEW', nickname, +e.target.innerText);
+        return getPhotos('CHANGE_FILTERED_PREVIEW', nickname, +e.target.innerText);
         // First loading and filtering
-        return self.props.getPhotos('LOAD_FILTERED_PREVIEW', nickname, +e.target.innerText);
+        return getPhotos('LOAD_FILTERED_PREVIEW', nickname, +e.target.innerText);
       }
 
-      self.setState({ errorText: '', photosText: '' })
-      self.props.getPhotos('LOAD_PREVIEW', nickname)
-      self.setState({ photosText: 'User has not photos' })
-
+      getPhotos('LOAD_PREVIEW', nickname)
+      this.setState({ photosText: 'User has not photos' })
     } else {
       this.setState({ errorText: 'Enter nickname here', photosText: '' })
     }
@@ -49,7 +50,7 @@ export default class Page extends Component {
       {
         years.map((item, index) =>
         <RaisedButton label={item} key={index} disabled={this.state.errorText == 'Enter nickname here' || fetching}
-         className='btn' onClick={::this.changeHandler}/> )
+         className='btn' onClick={this.changeHandler}/> )
       }
       {
         fetching ?
@@ -74,7 +75,7 @@ export default class Page extends Component {
       }
       <div className='advanced'>
         <TextField disabled={fetching} className='target' hintText='Enter Instagram nickname'
-         errorText={this.state.errorText} onChange={::this.changeHandler}/>
+         errorText={this.state.errorText} onChange={this.changeHandler}/>
       </div>
 
       {
@@ -102,7 +103,7 @@ export default class Page extends Component {
               }
               {
                 moreAvialable ? <RaisedButton label='Get more' disabled={fetching}
-                className='btn get_more' onClick={::this.changeHandler}>
+                className='btn get_more' onClick={this.changeHandler}>
                   { fetching ? <CircularProgress className='status_progressbar more' size={30} thickness={3} /> : '' }
                 </RaisedButton>
                : ''

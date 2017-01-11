@@ -8,7 +8,7 @@ const production = require('./prod.config.js');
 
 const PATHS = {
   entry: path.join(__dirname, '../client'),
-  build: path.join(__dirname, '../dist/static'),
+  build: path.join(__dirname, '../dist'),
 };
 
 const common = {
@@ -17,7 +17,8 @@ const common = {
   ],
 
   output: {
-    path: PATHS.build
+    path: PATHS.build,
+    filename: 'client.js',
   },
 
   resolve: {

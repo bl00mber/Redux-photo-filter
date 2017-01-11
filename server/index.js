@@ -21,8 +21,9 @@ app.use(function(req, res, next) {
   next();
 })
 
-if (process.env.NODE_ENV !== 'development') {
-  app.use('/static', express.static(__dirname + '/static'));
+// Production middleware
+if (process.env.NODE_ENV === 'production') {
+  app.use('/static', express.static(__dirname + './../dist'));
 }
 
 const htmlTemplate = () => {
@@ -41,11 +42,11 @@ const htmlTemplate = () => {
   `;
 }
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
   return res.send(htmlTemplate())
 })
 
-app.get('/request/:nickname?/:lastPhotoId?', function(req, res) {
+app.get('/request/:nickname?/:lastPhotoId?', (req, res) => {
   var nickname = req.params.nickname,
       lastPhotoId = req.params.lastPhotoId,
       url;
@@ -53,7 +54,7 @@ app.get('/request/:nickname?/:lastPhotoId?', function(req, res) {
   if (nickname && lastPhotoId) {
     url = 'https://www.instagram.com/' + nickname + '/media/?max_id=' + lastPhotoId;
 
-    return request.get(url, function(error, response, body) {
+    return request.get(url, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         return res.send(body)
       }
@@ -61,7 +62,7 @@ app.get('/request/:nickname?/:lastPhotoId?', function(req, res) {
   } else if (nickname) {
     url = 'https://www.instagram.com/' + nickname + '/media/';
 
-    return request.get(url, function(error, response, body) {
+    return request.get(url, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         return res.send(body)
       }
@@ -73,10 +74,10 @@ app.get('/request/:nickname?/:lastPhotoId?', function(req, res) {
 // process.env.PORT lets the port be set by Heroku
 const port = process.env.PORT || 3000;
 
-app.listen(port, function(error) {
+app.listen(port, (error) => {
   if (error) {
     console.error(error)
   } else {
-    console.info('==> 🌎 Express server listening on port %s', port)
+    console.info('==> 🌎  Express server listening on port %s', port)
   }
 })

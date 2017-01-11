@@ -4,7 +4,7 @@ import thunk from 'redux-thunk'
 
 let middleware = [thunk];
 
-// Logging in development mode
+// Log state in development mode
 if (process.env.NODE_ENV !== 'production') {
   let createLogger = require('redux-logger')
   const logger = createLogger()

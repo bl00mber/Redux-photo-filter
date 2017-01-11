@@ -9,8 +9,7 @@ module.exports = {
   ],
 
   output: {
-    filename: 'client.js',
-    publicPath: '/static/'
+    publicPath: '/static/',
   },
 
   module: {

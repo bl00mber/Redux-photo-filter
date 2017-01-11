@@ -1,6 +1,7 @@
 body {
   margin: 0px;
   font-family: Roboto;
+  min-width: 900px;
 }
 p {
   margin: 0;
@@ -80,11 +81,10 @@ h3 {
   left: 185px;
   color: #929292;
 }
-.feedback_text {
+.error {
   position: absolute;
   top: -60px;
   right: 0;
-  color: #d0d0d0;
   margin-right: 0 !important;
 }
 .feedback_text a {
