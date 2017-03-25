@@ -57,8 +57,8 @@ export function handleLogin() {
         });
 
       }
-    });
-    
+    }, true);
+
     /* eslint-enable */
 
   }

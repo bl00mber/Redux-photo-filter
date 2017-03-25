@@ -16,7 +16,7 @@ class App extends Component {
       <Page photos={page.photos} year={page.year} fetching={page.fetching}
         empty={page.empty} user={page.user} getPhotos={getPhotos} moreAvialable={page.moreAvialable}
         photosCount={page.photosCount} error={page.error}/>
-      <User name={user.name} login={user.login} error={user.error} handleLogin={handleLogin}/>
+      {/*<User name={user.name} login={user.login} error={user.error} handleLogin={handleLogin}/>*/}
     </div>
   }
 }

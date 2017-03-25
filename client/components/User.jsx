@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 export default class User extends Component {
   componentDidMount() {
     /* eslint-disable */
-    
+
     window.fbAsyncInit = function() {
       FB.init({
         appId      : '1869889646564013',
@@ -24,7 +24,7 @@ export default class User extends Component {
     /* eslint-enable */
   }
   render() {
-    const { name, login, error, handleLogin } = this.props
+    const { name, login, error, handleLogin } = this.props;
     let btn_text;
 
     if (login) {
